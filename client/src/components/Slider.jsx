@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
 import styled from "styled-components";
+import { sliderItems } from "../data";
 
 const Container = styled.div`
   width: 100%;
@@ -107,36 +108,18 @@ const Slider = () => {
         <ArrowLeftOutlined />
       </Arrow>
       <Wrapper slideIndex={slideIndex}>
-        <Slide bg="d3d3d3">
-          <ImageContainer>
-            <Image src="https://atozautoparts.net/userfiles-azab/images/banners/Autoparts.jpg" />
-          </ImageContainer>
-          <InfoContainer>
-            <Title>Auto Parts Halifax</Title>
-            <Description>trade parts at low cost prices</Description>
-            <Button>Buy Now</Button>
-          </InfoContainer>
-        </Slide>
-        <Slide bg="e0e0e0">
-          <ImageContainer>
-            <Image src="https://atozautoparts.net/userfiles-azab/images/banners/Autoparts.jpg" />
-          </ImageContainer>
-          <InfoContainer>
-            <Title>Auto Parts Halifax</Title>
-            <Description>trade parts at low cost prices</Description>
-            <Button>Buy Now</Button>
-          </InfoContainer>
-        </Slide>
-        <Slide bg="ececec">
-          <ImageContainer>
-            <Image src="https://atozautoparts.net/userfiles-azab/images/banners/Autoparts.jpg" />
-          </ImageContainer>
-          <InfoContainer>
-            <Title>Auto Parts Halifax</Title>
-            <Description>trade parts at low cost prices</Description>
-            <Button>Buy Now</Button>
-          </InfoContainer>
-        </Slide>
+        {sliderItems.map((item) => (
+          <Slide bg={item.bg} key={item.id}>
+            <ImageContainer>
+              <Image src={item.img} />
+            </ImageContainer>
+            <InfoContainer>
+              <Title>{item.title}</Title>
+              <Description>{item.desc}</Description>
+              <Button>SHOW NOW</Button>
+            </InfoContainer>
+          </Slide>
+        ))}
       </Wrapper>
       <Arrow direction="right" onClick={() => handleClick("right")}>
         <ArrowRightOutlined />

@@ -71,7 +71,7 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>Auto Parts</Logo>
+          <Logo>Auto Parts Halifax</Logo>
         </Center>
         <Right>
           <MenuItem>Register</MenuItem>
