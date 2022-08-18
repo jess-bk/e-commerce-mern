@@ -22,11 +22,11 @@ const Info = styled.div`
 `;
 
 const Container = styled.div`
+  display: flex;
   flex: 1;
   margin: 5px;
-  min-width: 280px;
+  min-width: 330px;
   height: 350px;
-  display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f9f9f9;
