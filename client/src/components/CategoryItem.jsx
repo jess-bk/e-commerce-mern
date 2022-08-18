@@ -19,6 +19,7 @@ const Info = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -27,15 +28,18 @@ const Info = styled.div`
 const Title = styled.h1`
   color: black;
   margin-bottom: 20px;
+  background: lightgrey;
+  opacity: 0.6;
 `;
 
 const Button = styled.button`
   border: none;
   padding: 10px;
-  background-color: white;
-  color: gray;
+  background-color: lightgrey;
+  color: black;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 800;
+  opacity: 0.7;
 `;
 
 const CategoryItem = ({ item }) => {
