@@ -7,7 +7,7 @@ const Container = styled.div`
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5)
     ),
-    url("https://wallpaperaccess.com/full/2056609.jpg") center;
+    url("https://wallpaperaccess.com/full/2947979.jpg") center;
   background-size: cover;
   display: flex;
   align-items: center;
