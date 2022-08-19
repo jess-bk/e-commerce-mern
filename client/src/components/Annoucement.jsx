@@ -14,7 +14,7 @@ const Container = styled.div`
 const Annoucement = () => {
   return (
     <Container>
-      <>Super Deals On Lubricants And Filters 10% Discount</>
+      <>Super Deals On Engine Oil And Filters 10% Discount</>
     </Container>
   );
 };
