@@ -15,19 +15,18 @@ const Title = styled.h1`
 const FilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mobile({ height: "50px" })}
-  ${mobile({ width: "0px 20px", display: "flex", flexDirection: "column" })};
 `;
 
 const Filter = styled.div`
   margin: 20px;
+  ${mobile({ width: "0px 20px", display: "flex", flexDirection: "column" })}
 `;
 
 const FilterText = styled.div`
   font-size: 20px;
   font-weight: 600;
   margin-right: -20px;
-  ${mobile({ marginRight: "0px" })};
+  ${mobile({ marginRight: "0px", fontSize: "16px" })};
 `;
 
 const Select = styled.select`
