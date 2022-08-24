@@ -42,6 +42,10 @@ const Desc = styled.p`
 const Price = styled.span`
   font-weight: 100;
   font-size: 40px;
+  ${mobile({
+    fontSize: "30px",
+    fontWeight: 200,
+  })}
 `;
 
 const FilterContainer = styled.div`
@@ -49,22 +53,37 @@ const FilterContainer = styled.div`
   margin: 50px 0px;
   display: flex;
   justify-content: space-between;
-  ${mobile({ width: "100%" })}
+  ${mobile({
+    width: "100%",
+    justifyContent: "space-between",
+  })}
 `;
 
 const Filter = styled.div`
   display: flex;
   align-items: center;
+  ${mobile({
+    display: "flex",
+    flexDirection: "column",
+  })}
 `;
 
 const FilterTitle = styled.span`
   font-size: 20px;
   font-weight: 200;
+  ${mobile({
+    alignContent: "center",
+    justifyContent: "center",
+    fontWeight: 300,
+  })}
 `;
 
 const FilterSize = styled.select`
   margin-left: 10px;
   padding: 5px;
+  ${mobile({
+    fontSize: "12px",
+  })}
 `;
 
 const FilterSizeOption = styled.option``;
@@ -80,7 +99,7 @@ const AmountContainer = styled.div`
   display: flex;
   align-items: center;
   font-weight: 700;
-  ${mobile({ width: "100%" })}
+  ${mobile({ width: "50%" })}
 `;
 
 const Amount = styled.span`
@@ -92,6 +111,9 @@ const Amount = styled.span`
   align-items: center;
   justify-content: center;
   margin: 0px 5px;
+  ${mobile({
+    fontSize: "10px",
+  })}
 `;
 
 const Button = styled.button`
@@ -103,6 +125,11 @@ const Button = styled.button`
   &:hover {
     background-color: #f8f4f4;
   }
+  ${mobile({
+    fontSize: "12px",
+    fontWeight: 500,
+    padding: "4px",
+  })}
 `;
 
 const Product = () => {
@@ -135,9 +162,9 @@ const Product = () => {
             </Filter>
             <AddContainer>
               <AmountContainer>
-                <Remove />
+                <Remove style={{ fontSize: "15px" }} />
                 <Amount>1</Amount>
-                <Add />
+                <Add style={{ fontSize: "15px" }} />
               </AmountContainer>
               <Button>ADD TO CART</Button>
             </AddContainer>
