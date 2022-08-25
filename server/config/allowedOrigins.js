@@ -3,6 +3,7 @@ const allowedOrigins = [
   "http://localhost:3500",
   "http://localhost:3000",
   "http://192.168.0.49",
+  "https://192.168.0.49",
 ];
 
 module.exports = allowedOrigins;
