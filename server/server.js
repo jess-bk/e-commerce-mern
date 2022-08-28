@@ -13,6 +13,8 @@ const mongoose = require("mongoose");
 const dbConnection = require("./config/dbConnection");
 const PORT = process.env.PORT || 3500;
 
+const authRoute = require("./routes/auth");
+
 // Connect to MongoDB
 dbConnection();
 
@@ -39,6 +41,7 @@ app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname, "/public")));
 
 // routes for the app
+app.use("/api/auth", authRoute);
 
 // Routes for authorized users
 // app.use(verifyJWT);
