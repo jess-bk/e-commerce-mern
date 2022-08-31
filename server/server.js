@@ -6,14 +6,13 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
-// const verifyJWT = require("./middleware/verifyJWT");
+
+const verifyJWT = require("./middleware/verifyJWT");
 const credentials = require("./middleware/credentials");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const dbConnection = require("./config/dbConnection");
 const PORT = process.env.PORT || 3500;
-
-const authRoute = require("./routes/auth");
 
 // Connect to MongoDB
 dbConnection();
@@ -41,10 +40,13 @@ app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname, "/public")));
 
 // routes for the app
-app.use("/api/auth", authRoute);
+app.use("/api/auth/register", require("./routes/register"));
+app.use("/api/auth/login", require("./routes/auth"));
+app.use("/refresh", require("./routes/refresh"));
 
 // Routes for authorized users
-// app.use(verifyJWT);
+app.use(verifyJWT);
+app.use("/api/users", require("./routes/users"));
 
 app.all("*", (req, res) => {
   res.status(404);
