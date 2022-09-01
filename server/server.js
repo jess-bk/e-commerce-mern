@@ -46,6 +46,7 @@ app.use("/refresh", require("./routes/refresh"));
 
 // Routes for authorized users
 app.use(verifyJWT);
+app.use("/api/products", require("./routes/product"));
 app.use("/api/users", require("./routes/users"));
 
 app.all("*", (req, res) => {
