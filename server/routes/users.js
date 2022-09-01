@@ -13,5 +13,8 @@ router.route("/find/:id").get(verifyAdmin(ISADMIN_LIST.Admin), users.getUser);
 router
   .route("/")
   .get(verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User), users.getAllUsers);
+router
+  .route("/stats")
+  .get(verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User), users.getUserStats);
 
 module.exports = router;
