@@ -10,5 +10,8 @@ router
   .delete(verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User), users.deleteUser);
 
 router.route("/find/:id").get(verifyAdmin(ISADMIN_LIST.Admin), users.getUser);
+router
+  .route("/")
+  .get(verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User), users.getAllUsers);
 
 module.exports = router;
