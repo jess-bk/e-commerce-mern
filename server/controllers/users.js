@@ -24,6 +24,7 @@ const updateUser = async (req, res) => {
   }
 };
 
+//DELETE USER
 const deleteUser = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -33,4 +34,24 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { updateUser, deleteUser };
+//GET USER
+const getUser = async (req, res) => {
+  if (!req?.params?.id)
+    return res.status(400).json({ message: "User ID required" });
+
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res
+        .status(204)
+        .json({ message: `User ID ${req.params.id} not found` });
+    }
+
+    const { password, ...others } = user._doc;
+    res.status(200).json(others);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports = { updateUser, deleteUser, getUser };
