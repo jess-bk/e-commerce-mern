@@ -48,7 +48,9 @@ app.use("/refresh", require("./routes/refresh"));
 app.use(verifyJWT);
 app.use("/api/products", require("./routes/product"));
 app.use("/api/users", require("./routes/users"));
-app.use("/api/cart", require("./routes/cart"));
+app.use("/api/carts", require("./routes/cart"));
+app.use("/api/orders", require("./routes/order"));
+app.use("/api/payment", require("./routes/stripe"));
 
 app.all("*", (req, res) => {
   res.status(404);
