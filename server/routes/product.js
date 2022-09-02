@@ -6,9 +6,13 @@ const verifyAdmin = require("../middleware/verifyAdmin");
 
 router
   .route("/")
-  .get(
+  .post(
     verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User),
     product.createProduct
+  )
+  .get(
+    verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User),
+    product.getAllProducts
   );
 
 router
@@ -16,6 +20,14 @@ router
   .put(
     verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User),
     product.updateProducts
+  )
+  .delete(
+    verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User),
+    product.deleteProduct
   );
+
+router
+  .route("/find/:id")
+  .get(verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User), product.getProduct);
 
 module.exports = router;

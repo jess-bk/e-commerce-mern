@@ -26,13 +26,55 @@ const updateProducts = async (req, res) => {
   }
 };
 
-const deleteProduct = async = (req,res) => {
+//DELETE PRODUCT
+const deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndDelete(req.params.id)
-    res.status(200).json(product)
-  } catch (error){
-    res.status(500).json(error)
+    const product = await Product.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+      message: "Product has been deleted",
+      product,
+    });
+  } catch (error) {
+    res.status(500).json(error);
   }
-}
+};
 
-module.exports = { createProduct, updateProducts,deleteProduct };
+//GET PRODUCT
+const getProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+//GET ALL PRODUCT
+const getAllProducts = async (req, res) => {
+  const queryNew = req.query.new;
+  const queryCategory = req.query.category;
+
+  try {
+    let products;
+
+    if (queryNew) {
+      products = await Product.find().sort({ createdAt: -1 }).limit(1);
+    } else if (queryCategory) {
+      products = await Product.find({ categories: { $in: [queryCategory] } });
+    } else {
+      products = await Product.find();
+    }
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports = {
+  createProduct,
+  updateProducts,
+  deleteProduct,
+  getProduct,
+  getAllProducts,
+};
