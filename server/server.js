@@ -50,7 +50,7 @@ app.use("/api/products", require("./routes/product"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/carts", require("./routes/cart"));
 app.use("/api/orders", require("./routes/order"));
-app.use("/api/payment", require("./routes/stripe"));
+app.use("/api/checkout", require("./routes/stripe"));
 
 app.all("*", (req, res) => {
   res.status(404);
