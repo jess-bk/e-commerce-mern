@@ -24,9 +24,6 @@ app.use(logger);
 // and fetch cookies credentials requirement
 app.use(credentials);
 
-// Cross Origin Resource Sharing
-app.use(cors(corsOptions));
-
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
 
@@ -39,14 +36,18 @@ app.use(cookieParser());
 //serve static files
 app.use("/", express.static(path.join(__dirname, "/public")));
 
+// Cross Origin Resource Sharing
+app.use(cors(corsOptions));
+
 // routes for the app
 app.use("/api/auth/register", require("./routes/register"));
 app.use("/api/auth/login", require("./routes/auth"));
+app.use("/api/products", require("./routes/product"));
 app.use("/refresh", require("./routes/refresh"));
+app.use("/api/logout", require("./routes/logout"));
 
 // Routes for authorized users
 app.use(verifyJWT);
-app.use("/api/products", require("./routes/product"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/carts", require("./routes/cart"));
 app.use("/api/orders", require("./routes/order"));

@@ -5,7 +5,7 @@ const handleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken = cookies.jwt;
-  res.clearCookie("jwt", { httpOnly: false, sameSite: "None", secure: false });
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
 
   const foundUser = await User.findOne({ refreshToken }).exec();
 
@@ -21,7 +21,7 @@ const handleRefreshToken = async (req, res) => {
           username: decoded.username,
         }).exec();
         hackedUser.refreshToken = [];
-        await hackedUser.save();
+        const result = await hackedUser.save();
       }
     );
     return res.sendStatus(403); //Forbidden
@@ -39,7 +39,7 @@ const handleRefreshToken = async (req, res) => {
       if (err) {
         // expired refresh token
         foundUser.refreshToken = [...newRefreshTokenArray];
-        await foundUser.save();
+        const result = await foundUser.save();
       }
       if (err || foundUser.username !== decoded.username)
         return res.sendStatus(403);
@@ -54,22 +54,22 @@ const handleRefreshToken = async (req, res) => {
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1d" }
+        { expiresIn: "10s" }
       );
 
       const newRefreshToken = jwt.sign(
         { username: foundUser.username },
         process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "1d" }
+        { expiresIn: "15s" }
       );
       // Saving refreshToken with current user
       foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
-      await foundUser.save();
+      const result = await foundUser.save();
 
       // Creates Secure Cookie with refresh token
       res.cookie("jwt", newRefreshToken, {
-        httpOnly: false,
-        secure: false,
+        httpOnly: true,
+        secure: true,
         sameSite: "None",
         maxAge: 24 * 60 * 60 * 1000,
       });

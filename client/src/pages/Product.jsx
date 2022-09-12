@@ -1,10 +1,18 @@
-import { Add, Remove } from "@material-ui/icons";
+import { Add, AutorenewTwoTone, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Annoucement from "../components/Annoucement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
+
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { axiosPrivate } from "../Api/axios";
+import { addProduct } from "../redux/cartRedux";
+import useAuth from "../hooks/useAuth";
 
 const Container = styled.div``;
 
@@ -52,47 +60,19 @@ const FilterContainer = styled.div`
   width: 100%;
   margin: 50px 0px;
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
+
   ${mobile({
     width: "100%",
     justifyContent: "space-between",
   })}
 `;
 
-const Filter = styled.div`
-  display: flex;
-  align-items: center;
-  ${mobile({
-    display: "flex",
-    flexDirection: "column",
-  })}
-`;
-
-const FilterTitle = styled.span`
-  font-size: 20px;
-  font-weight: 200;
-  ${mobile({
-    alignContent: "center",
-    justifyContent: "center",
-    fontWeight: 300,
-  })}
-`;
-
-const FilterSize = styled.select`
-  margin-left: 10px;
-  padding: 5px;
-  ${mobile({
-    fontSize: "12px",
-  })}
-`;
-
-const FilterSizeOption = styled.option``;
-
 const AddContainer = styled.div`
   width: 50%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
 const AmountContainer = styled.div`
@@ -117,11 +97,14 @@ const Amount = styled.span`
 `;
 
 const Button = styled.button`
+  display: flex;
+  margin-left: 50px;
   padding: 15px;
   border: 2px solid gray;
   background-color: white;
   cursor: pointer;
   font-weight: 500;
+
   &:hover {
     background-color: #f8f4f4;
   }
@@ -133,40 +116,64 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const dispatch = useDispatch();
+
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const { auth } = useAuth();
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axiosPrivate.get(`/api/products/find/${id}`);
+        setProduct(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProduct();
+  }, [id]);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleClick = () => {
+    dispatch(addProduct({ ...product, quantity }));
+  };
+
   return (
     <Container>
       <Navbar />
       <Annoucement />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://www.castrol.com/content/dam/castrol/master-site/en/global/home/motor-oil-and-fluids/motor-oils-and-lubricants/castrol_oil_technology_history_header.jpg.img.1280.medium.jpg" />
+          <Image src={product.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Castrol Engine Oil</Title>
-          <Desc>
-            When it’s time for an oil change, which oil is right for your
-            engine? The answer to that question gets more complex every day. The
-            latest engines are getting smaller and more powerful all the time,
-            and manufacturers are specifying complex full synthetic oils to cope
-            with higher engine pressures and meet fuel efficiency targets.
-          </Desc>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
           <FilterContainer>
-            <Price>£ 50</Price>
-            <Filter>
-              <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>1 litre</FilterSizeOption>
-                <FilterSizeOption>2 litres</FilterSizeOption>
-                <FilterSizeOption>5 litres</FilterSizeOption>
-              </FilterSize>
-            </Filter>
+            <Price>£ {product.price}</Price>
             <AddContainer>
               <AmountContainer>
-                <Remove style={{ fontSize: "15px" }} />
-                <Amount>1</Amount>
-                <Add style={{ fontSize: "15px" }} />
+                <Remove
+                  onClick={() => handleQuantity("dec")}
+                  style={{ cursor: "pointer" }}
+                />
+                <Amount>{quantity}</Amount>
+                <Add
+                  onClick={() => handleQuantity("inc")}
+                  style={{ cursor: "pointer" }}
+                />
               </AmountContainer>
-              <Button>ADD TO CART</Button>
+              <Button onClick={handleClick}>ADD TO CART</Button>
             </AddContainer>
           </FilterContainer>
         </InfoContainer>

@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import { Badge } from "@material-ui/core";
 import { mobile } from "../responsive";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
+import useAuth from "../hooks/useAuth";
 
 const Container = styled.div`
   height: 60px;
@@ -67,7 +71,42 @@ const MenuItem = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
+const Button = styled.button`
+  width: 12%;
+  text-align: center;
+  padding: 5px;
+  background-color: lightgray;
+  &:hover {
+    background-color: black;
+    color: gray;
+  }
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+`;
+
+const Username = styled.p`
+  width: 10%;
+  text-align: center;
+  justify-content: space-between;
+  margin: 5px;
+  color: black;
+  font-style: italic;
+  font-weight: bold;
+`;
+
 const Navbar = () => {
+  const quantity = useSelector((state) => state.cart.quantity);
+  const { auth } = useAuth();
+
+  const navigate = useNavigate();
+  const logout = useLogout();
+
+  const signOut = async () => {
+    await logout();
+    navigate("/");
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -82,13 +121,30 @@ const Navbar = () => {
           <Logo>Auto Parts Halifax</Logo>
         </Center>
         <Right>
-          <MenuItem>Register</MenuItem>
-          <MenuItem>Sign In</MenuItem>
-          <MenuItem>
-            <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlined />
-            </Badge>
-          </MenuItem>
+          {!auth.username ? (
+            <>
+              <Link style={{ textDecoration: "none" }} to="/register">
+                <MenuItem>Register</MenuItem>
+              </Link>
+              <Link style={{ textDecoration: "none" }} to="/login">
+                <MenuItem>Sign In</MenuItem>
+              </Link>
+            </>
+          ) : (
+            <Button onClick={signOut}>Logout</Button>
+          )}
+          <Username>{auth.username}</Username>
+          <Link to={`/cart`}>
+            <MenuItem>
+              <Badge
+                badgeContent={quantity}
+                color="primary"
+                overlap="rectangular"
+              >
+                <ShoppingCartOutlined />
+              </Badge>
+            </MenuItem>
+          </Link>
         </Right>
       </Wrapper>
     </Container>

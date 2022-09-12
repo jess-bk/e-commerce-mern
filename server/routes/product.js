@@ -11,7 +11,7 @@ router
     product.createProduct
   )
   .get(
-    verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User),
+    // verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User),
     product.getAllProducts
   );
 
@@ -26,8 +26,9 @@ router
     product.deleteProduct
   );
 
-router
-  .route("/find/:id")
-  .get(verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User), product.getProduct);
+router.route("/find/:id").get(
+  // verifyAdmin(ISADMIN_LIST.Admin, ISADMIN_LIST.User),
+  product.getProduct
+);
 
 module.exports = router;

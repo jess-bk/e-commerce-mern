@@ -27,16 +27,19 @@ export const categories = [
     id: 1,
     img: "https://i.ytimg.com/vi/TgnTHCGx2xk/maxresdefault.jpg",
     title: "MOTOR OILS!",
+    cat: "Engine",
   },
   {
     id: 2,
     img: "https://www.buybrakes.com/images/product/Dynamic%20Friction%20-%20Drilled%20and%20Slotted%20-%20Stage%202%20Street%20Rotor%20and%20Pad%20Kit.jpg",
     title: "BRAKE PARTS!",
+    cat: "BrakePads",
   },
   {
     id: 3,
     img: "https://img2.exportersindia.com/product_images/bc-full/dir_55/1635506/champion-grader-automatic-transmission-spare-parts-2218910.jpeg",
     title: "TRANSMISSION PARTS!",
+    cat: "Transmission",
   },
 ];
 

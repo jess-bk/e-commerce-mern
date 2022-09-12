@@ -1,6 +1,6 @@
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
 
 const handleLogin = async (req, res) => {
   const cookies = req.cookies;
@@ -26,12 +26,12 @@ const handleLogin = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "10s" }
     );
     const newRefreshToken = jwt.sign(
       { username: foundUser.username },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "15s" }
     );
 
     // Changed to let keyword
@@ -57,22 +57,22 @@ const handleLogin = async (req, res) => {
       }
 
       res.clearCookie("jwt", {
-        httpOnly: false,
+        httpOnly: true,
         sameSite: "None",
-        secure: false,
+        secure: true,
       });
     }
 
     // Saving refreshToken with current user
     foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
     const result = await foundUser.save();
-    console.log("result", result);
-    console.log("isAdmin", isAdmin);
+    console.log(result);
+    console.log(isAdmin);
 
     // Creates Secure Cookie with refresh token
     res.cookie("jwt", newRefreshToken, {
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: true,
       sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000,
     });
